@@ -1,10 +1,10 @@
 ---
-import { siteConfig } from '../../site.config';
+import { siteConfig } from '@/config';
 
 interface Props {
-  title?: string;
-  description?: string;
-  lang?: string;
+  title?: string | undefined;
+  description?: string | undefined;
+  lang?: string | undefined;
 }
 
 const { title, description, lang = 'en' } = Astro.props;

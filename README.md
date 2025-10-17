@@ -44,7 +44,7 @@ SITE_DESCRIPTION=Your blog description
 - For `HACKERSPUB_HANDLE`, use your Hackers' Pub handle without the domain (e.g., `moreal` instead of `moreal@hackers.pub`).
 - Astro automatically loads `.env` files and makes them available via `import.meta.env`.
 
-Alternatively, you can edit `site.config.ts` directly to hardcode your configuration.
+Alternatively, you can edit `src/config.ts` directly to hardcode your configuration.
 
 ## Development
 
@@ -176,7 +176,7 @@ The `MINIMUM_VISIBILITY` setting controls which articles are displayed:
 
 ### Site Configuration
 
-Edit `site.config.ts` to customize:
+Edit `src/config.ts` to customize:
 
 ```typescript
 export const siteConfig = {

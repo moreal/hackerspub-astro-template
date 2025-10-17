@@ -44,7 +44,7 @@ SITE_DESCRIPTION=Hackers' Pub으로 만든 블로그
 - `HACKERSPUB_HANDLE`에는 도메인 없이 핸들만 입력하세요 (예: `moreal@hackers.pub` 대신 `moreal`).
 - Astro는 자동으로 `.env` 파일을 로드하고 `import.meta.env`를 통해 사용할 수 있게 합니다.
 
-또는 `site.config.ts` 파일을 직접 편집하여 설정을 하드코딩할 수도 있습니다.
+또는 `src/config.ts` 파일을 직접 편집하여 설정을 하드코딩할 수도 있습니다.
 
 ## 개발
 
@@ -176,7 +176,7 @@ GRAPHQL_ENDPOINT=https://hackers.pub/graphql
 
 ### 사이트 설정
 
-`site.config.ts`를 편집하여 커스터마이징:
+`src/config.ts`를 편집하여 커스터마이징:
 
 ```typescript
 export const siteConfig = {

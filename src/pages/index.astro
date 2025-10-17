@@ -1,9 +1,9 @@
 ---
-import { getAllArticles } from "../lib/graphql/client";
-import { siteConfig } from "../../site.config";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Navigation from "../components/Navigation.astro";
-import { RelativeTime } from "../components/RelativeTime";
+import { getAllArticles } from "@/lib/graphql/client";
+import { siteConfig } from "@/config";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navigation from "@/components/Navigation.astro";
+import { RelativeTime } from "@/components/RelativeTime";
 
 const articles = await getAllArticles(
   siteConfig.handle,

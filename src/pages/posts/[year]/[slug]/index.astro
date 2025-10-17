@@ -1,12 +1,12 @@
 ---
-import { getAllArticles } from '../../../../lib/graphql/client';
-import { siteConfig } from '../../../../../site.config';
-import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import Navigation from '../../../../components/Navigation.astro';
-import LanguageSwitcher from '../../../../components/LanguageSwitcher.astro';
-import ArticleMetadata from '../../../../components/ArticleMetadata.astro';
-import Reactions from '../../../../components/Reactions.astro';
-import { generateAlternateLanguageLinks } from '../../../../lib/utils';
+import { getAllArticles } from '@/lib/graphql/client';
+import { siteConfig } from '@/config';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Navigation from '@/components/Navigation.astro';
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
+import ArticleMetadata from '@/components/ArticleMetadata.astro';
+import Reactions from '@/components/Reactions.astro';
+import { generateAlternateLanguageLinks } from '@/lib/utils';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths = (async () => {
@@ -50,7 +50,7 @@ const alternateLinks = hasMultipleLanguages
 ---
 
 <BaseLayout 
-  title={content.title} 
+  title={content.title || undefined} 
   lang={content.language}
 >
   <Fragment slot="head">

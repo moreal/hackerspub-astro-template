@@ -1,8 +1,8 @@
 ---
-import { getAllArticles } from "../../lib/graphql/client";
-import { siteConfig } from "../../../site.config";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Navigation from "../../components/Navigation.astro";
+import { getAllArticles } from "@/lib/graphql/client";
+import { siteConfig } from "@/config";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navigation from "@/components/Navigation.astro";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async () => {

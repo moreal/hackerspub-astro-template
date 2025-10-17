@@ -1,35 +1,40 @@
 ---
-import { getAllArticles } from '../../../../../lib/graphql/client';
-import { siteConfig } from '../../../../../../site.config';
-import BaseLayout from '../../../../../layouts/BaseLayout.astro';
-import Navigation from '../../../../../components/Navigation.astro';
-import LanguageSwitcher from '../../../../../components/LanguageSwitcher.astro';
-import ArticleMetadata from '../../../../../components/ArticleMetadata.astro';
-import Reactions from '../../../../../components/Reactions.astro';
-import { generateAlternateLanguageLinks } from '../../../../../lib/utils';
-import type { GetStaticPaths } from 'astro';
+import { getAllArticles } from "@/lib/graphql/client";
+import { siteConfig } from "@/config";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navigation from "@/components/Navigation.astro";
+import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
+import ArticleMetadata from "@/components/ArticleMetadata.astro";
+import Reactions from "@/components/Reactions.astro";
+import { generateAlternateLanguageLinks } from "@/lib/utils";
+import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async () => {
-  const articles = await getAllArticles(siteConfig.handle, siteConfig.minimumVisibility);
+  const articles = await getAllArticles(
+    siteConfig.handle,
+    siteConfig.minimumVisibility,
+  );
   const paths: any[] = [];
 
   for (const article of articles) {
     if (article.contents && article.contents.length > 0) {
-      const availableContents = article.contents.filter(c => !c.beingTranslated);
-      
+      const availableContents = article.contents.filter(
+        (c) => !c.beingTranslated,
+      );
+
       for (const content of availableContents) {
         if (!content.originalLanguage) continue;
-        
+
         paths.push({
           params: {
             year: article.publishedYear.toString(),
             slug: article.slug,
-            locale: content.language
+            locale: content.language,
           },
-          props: { 
+          props: {
             article,
             content,
-            availableLanguages: availableContents
+            availableLanguages: availableContents,
           },
         });
       }
@@ -41,20 +46,19 @@ export const getStaticPaths = (async () => {
 
 const { article, content, availableLanguages } = Astro.props;
 const alternateLinks = generateAlternateLanguageLinks(
-  availableLanguages, 
-  article.publishedYear, 
-  article.slug
+  availableLanguages,
+  article.publishedYear,
+  article.slug,
 );
 ---
 
-<BaseLayout 
-  title={content.title} 
-  lang={content.language}
->
+<BaseLayout title={content.title} lang={content.language}>
   <Fragment slot="head">
-    {alternateLinks.map(link => (
-      <link rel="alternate" hreflang={link.hreflang} href={link.href} />
-    ))}
+    {
+      alternateLinks.map((link) => (
+        <link rel="alternate" hreflang={link.hreflang} href={link.href} />
+      ))
+    }
   </Fragment>
 
   <header class="mb-8">
@@ -70,20 +74,22 @@ const alternateLinks = generateAlternateLanguageLinks(
         articleSlug={article.slug}
       />
 
-      {content.originalLanguage && (
-        <div class="mb-4 text-sm text-gray-600">
-          Translated from {content.originalLanguage}
-        </div>
-      )}
+      {
+        content.originalLanguage && (
+          <div class="mb-4 text-sm text-gray-600">
+            Translated from {content.originalLanguage}
+          </div>
+        )
+      }
 
       <h1 class="text-4xl font-bold mb-3">{content.title}</h1>
 
-      <ArticleMetadata 
-        published={content.published} 
-        tags={article.tags} 
-      />
+      <ArticleMetadata published={content.published} tags={article.tags} />
 
-      <div class="prose prose-slate max-w-none mb-8 mt-6" set:html={content.content} />
+      <div
+        class="prose prose-slate max-w-none mb-8 mt-6"
+        set:html={content.content}
+      />
 
       <Reactions reactionGroups={article.reactionGroups} />
     </article>

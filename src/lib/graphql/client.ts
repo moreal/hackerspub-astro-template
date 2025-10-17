@@ -1,7 +1,7 @@
 import { GraphQLClient } from "graphql-request";
 import { getSdk } from "./generated/graphql";
 import type { GetActorWithArticlesQuery } from "./generated/graphql";
-import { siteConfig } from "../../../site.config";
+import { siteConfig } from "@/config";
 
 const client = new GraphQLClient(siteConfig.graphqlEndpoint);
 const sdk = getSdk(client);

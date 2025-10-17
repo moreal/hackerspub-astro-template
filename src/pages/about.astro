@@ -1,8 +1,8 @@
 ---
-import { getActor } from "../lib/graphql/client";
-import { siteConfig } from "../../site.config";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Navigation from "../components/Navigation.astro";
+import { getActor } from "@/lib/graphql/client";
+import { siteConfig } from "@/config";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navigation from "@/components/Navigation.astro";
 
 const actor = await getActor(siteConfig.handle);
 ---
