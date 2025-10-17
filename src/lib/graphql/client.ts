@@ -71,8 +71,6 @@ export async function getAllArticles(
 export async function getActor(handle: string): Promise<Actor> {
   const response = await sdk.GetActorWithArticles({ handle });
 
-  console.log(response);
-
   if (!response.data.actorByHandle) {
     throw new Error(`Actor not found: ${handle}`);
   }

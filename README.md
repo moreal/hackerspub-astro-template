@@ -78,26 +78,84 @@ If you modify GraphQL queries in `src/lib/graphql/queries.ts`, regenerate types:
 yarn codegen
 ```
 
+## Code Quality
+
+### Type Checking
+
+Run type checking with code generation:
+
+```bash
+yarn check
+```
+
+This will run GraphQL code generation and then Astro's type checker.
+
+### Code Formatting
+
+Format your code with Prettier:
+
+```bash
+yarn format
+```
+
+Check if code is formatted correctly:
+
+```bash
+yarn format:check
+```
+
+### Git Hooks
+
+This project uses [Lefthook](https://github.com/evilmartians/lefthook) and lint-staged to automatically format code before commits. The pre-commit hook will run Prettier on staged files.
+
+Lefthook is configured in `lefthook.yml`.
+
+### CI/CD
+
+GitHub Actions workflow automatically runs on push and pull requests to check:
+- Code formatting (via Prettier)
+- Type checking (via `astro check`)
+- GraphQL code generation
+
 ## Routes
 
 - `/` - All articles (sorted by newest first)
-- `/posts/[year]/[slug]` - Individual article page
+- `/posts/[year]/[slug]/` - Individual article page (original language)
+- `/posts/[year]/[slug]/[locale]/` - Translated article page
 - `/tags` - All tags with article counts
 - `/tag/[tag]` - Articles filtered by tag
 - `/about` - About page with actor bio
+- `/sitemap-index.xml` - Automatically generated sitemap
+- `/robots.txt` - Robots.txt with sitemap reference
 
 ## Multi-language Support
 
-Articles with multiple language versions will display a language selector on the article page. The system automatically:
+Articles with multiple language versions have separate URLs for each translation. The system automatically:
 
+- Creates separate pages for each language at `/posts/[year]/[slug]/[locale]/`
+- Shows the original language at `/posts/[year]/[slug]/`
 - Filters out articles that are currently being translated (`beingTranslated: true`)
+- Provides language switcher links on each page
 - Shows the original language with an "(Original)" label
 - Displays which language a translation was translated from
-- Preserves the article structure and metadata across all language versions
+- Includes proper `hreflang` tags for SEO
 
-When viewing an article with multiple languages, readers can switch between available translations using the language dropdown.
+When viewing an article, readers can see all available language versions and switch between them using the language links at the top of the page.
 
 ## Configuration
+
+### Site URL
+
+Set your site URL in `astro.config.mjs` for proper sitemap generation:
+
+```javascript
+export default defineConfig({
+  site: "https://yourdomain.com",
+  // ...
+});
+```
+
+This is required for the sitemap integration to generate absolute URLs.
 
 ### GraphQL Endpoint
 

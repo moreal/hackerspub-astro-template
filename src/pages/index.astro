@@ -3,7 +3,6 @@ import { getAllArticles } from "../lib/graphql/client";
 import { siteConfig } from "../../site.config";
 import { RelativeTime } from "../components/RelativeTime";
 
-console.log(siteConfig);
 const articles = await getAllArticles(
   siteConfig.handle,
   siteConfig.minimumVisibility,

@@ -78,26 +78,84 @@ yarn preview
 yarn codegen
 ```
 
+## 코드 품질
+
+### 타입 체크
+
+코드 생성과 함께 타입 체크 실행:
+
+```bash
+yarn check
+```
+
+GraphQL 코드 생성 후 Astro 타입 체커를 실행합니다.
+
+### 코드 포매팅
+
+Prettier로 코드 포맷:
+
+```bash
+yarn format
+```
+
+코드가 올바르게 포맷되었는지 확인:
+
+```bash
+yarn format:check
+```
+
+### Git Hooks
+
+이 프로젝트는 [Lefthook](https://github.com/evilmartians/lefthook)과 lint-staged를 사용하여 커밋 전에 자동으로 코드를 포맷합니다. pre-commit 훅이 스테이징된 파일에 Prettier를 실행합니다.
+
+Lefthook은 `lefthook.yml`에 설정되어 있습니다.
+
+### CI/CD
+
+GitHub Actions 워크플로우가 push 및 pull request 시 자동으로 다음을 확인합니다:
+- 코드 포매팅 (Prettier)
+- 타입 체킹 (`astro check`)
+- GraphQL 코드 생성
+
 ## 라우트
 
 - `/` - 모든 글 목록 (최신순 정렬)
-- `/posts/[year]/[slug]` - 개별 글 페이지
+- `/posts/[year]/[slug]/` - 개별 글 페이지 (원본 언어)
+- `/posts/[year]/[slug]/[locale]/` - 번역된 글 페이지
 - `/tags` - 글 개수와 함께 표시되는 태그 목록
 - `/tag/[tag]` - 태그별 글 목록
 - `/about` - 소개 페이지 (작성자 정보 및 프로필)
+- `/sitemap-index.xml` - 자동 생성되는 사이트맵
+- `/robots.txt` - 사이트맵 참조가 포함된 robots.txt
 
 ## 다국어 지원
 
-여러 언어 버전이 있는 글은 글 페이지에 언어 선택기가 표시됩니다. 시스템은 자동으로:
+여러 언어 버전이 있는 글은 각 번역마다 별도의 URL을 갖습니다. 시스템은 자동으로:
 
+- `/posts/[year]/[slug]/[locale]/`에 각 언어별 페이지 생성
+- `/posts/[year]/[slug]/`에 원본 언어 표시
 - 현재 번역 중인 글 필터링 (`beingTranslated: true`)
+- 각 페이지에 언어 전환 링크 제공
 - 원본 언어에 "(Original)" 라벨 표시
 - 번역이 어느 언어에서 번역되었는지 표시
-- 모든 언어 버전에서 글 구조와 메타데이터 유지
+- SEO를 위한 적절한 `hreflang` 태그 포함
 
-여러 언어가 있는 글을 볼 때 독자는 언어 드롭다운을 사용하여 사용 가능한 번역 간에 전환할 수 있습니다.
+글을 볼 때 독자는 사용 가능한 모든 언어 버전을 확인하고 페이지 상단의 언어 링크를 사용하여 전환할 수 있습니다.
 
 ## 설정
+
+### 사이트 URL
+
+사이트맵 생성을 위해 `astro.config.mjs`에서 사이트 URL 설정:
+
+```javascript
+export default defineConfig({
+  site: "https://yourdomain.com",
+  // ...
+});
+```
+
+사이트맵 통합이 절대 URL을 생성하려면 이 설정이 필요합니다.
 
 ### GraphQL 엔드포인트
 

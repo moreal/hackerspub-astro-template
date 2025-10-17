@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-staged:
+      glob: "*.{js,jsx,ts,tsx,astro,json,md}"
+      run: yarn lint-staged
