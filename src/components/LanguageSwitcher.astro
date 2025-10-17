@@ -1,4 +1,6 @@
 ---
+import { getLanguageUrl } from "@/lib/utils";
+
 interface Language {
   language: string;
   originalLanguage?: string | null;
@@ -13,12 +15,6 @@ interface Props {
 
 const { availableLanguages, currentLanguage, articleYear, articleSlug } =
   Astro.props;
-
-function getLanguageUrl(lang: Language, year: number, slug: string) {
-  return lang.originalLanguage
-    ? `/posts/${year}/${slug}/${lang.language}/`
-    : `/posts/${year}/${slug}/`;
-}
 ---
 
 {

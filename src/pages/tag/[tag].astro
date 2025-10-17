@@ -42,7 +42,7 @@ const { tag, articles } = Astro.props;
           <article class="border-b pb-6">
             <h2 class="text-xl font-semibold mb-2">
               <a
-                href={`/posts/${article.publishedYear}/${article.slug}`}
+                href={`${import.meta.env.BASE_URL}/posts/${article.publishedYear}/${article.slug}`}
                 class="text-blue-600 hover:underline"
               >
                 {article.name}

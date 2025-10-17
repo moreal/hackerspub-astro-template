@@ -91,7 +91,7 @@ export function ArticleContent({
               {tags.map((tag) => (
                 <a
                   key={tag}
-                  href={`/tag/${tag}`}
+                  href={`${import.meta.env.BASE_URL}/tag/${tag}`}
                   className="text-blue-600 hover:underline"
                 >
                   #{tag}

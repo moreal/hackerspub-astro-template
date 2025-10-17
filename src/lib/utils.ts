@@ -8,9 +8,10 @@ export function getLanguageUrl(
   year: number,
   slug: string,
 ): string {
-  return lang.originalLanguage
+  const basePath = lang.originalLanguage
     ? `/posts/${year}/${slug}/${lang.language}/`
     : `/posts/${year}/${slug}/`;
+  return `${import.meta.env.BASE_URL}${basePath}`;
 }
 
 export function generateAlternateLanguageLinks(
