@@ -113,6 +113,7 @@ Lefthook is configured in `lefthook.yml`.
 ### CI/CD
 
 GitHub Actions workflow automatically runs on push and pull requests to check:
+
 - Code formatting (via Prettier)
 - Type checking (via `astro check`)
 - GraphQL code generation

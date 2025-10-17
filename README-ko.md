@@ -113,6 +113,7 @@ Lefthook은 `lefthook.yml`에 설정되어 있습니다.
 ### CI/CD
 
 GitHub Actions 워크플로우가 push 및 pull request 시 자동으로 다음을 확인합니다:
+
 - 코드 포매팅 (Prettier)
 - 타입 체킹 (`astro check`)
 - GraphQL 코드 생성

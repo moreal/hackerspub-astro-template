@@ -1,5 +1,5 @@
 ---
-import { siteConfig } from '@/config';
+import { siteConfig } from "@/config";
 
 interface Props {
   title?: string | undefined;
@@ -7,7 +7,7 @@ interface Props {
   lang?: string | undefined;
 }
 
-const { title, description, lang = 'en' } = Astro.props;
+const { title, description, lang = "en" } = Astro.props;
 const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title;
 const pageDescription = description || siteConfig.description;
 ---
