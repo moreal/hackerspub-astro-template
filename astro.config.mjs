@@ -4,7 +4,8 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://example.com", // Change this to your actual site URL
+  site: "https://moreal.github.io", // Change this to your actual site URL
+  base: "/hackerspub-astro-template",
   output: "static",
   integrations: [react(), tailwind(), sitemap()],
 });
