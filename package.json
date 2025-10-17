@@ -1,5 +1,6 @@
 {
   "name": "hackerspub-astro-demo",
+  "license": "MIT",
   "packageManager": "yarn@4.9.1",
   "type": "module",
   "scripts": {
