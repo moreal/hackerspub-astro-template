@@ -1,0 +1,13 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<nav class={className}>
+  <a href="/" class="text-blue-600 hover:underline">Home</a>
+  <a href="/tags" class="text-blue-600 hover:underline">Tags</a>
+  <a href="/about" class="text-blue-600 hover:underline">About</a>
+</nav>

@@ -1,0 +1,28 @@
+---
+import { siteConfig } from '../../site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+}
+
+const { title, description, lang = 'en' } = Astro.props;
+const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title;
+const pageDescription = description || siteConfig.description;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <slot name="head" />
+  </head>
+  <body class="max-w-4xl mx-auto px-4 py-8">
+    <slot />
+  </body>
+</html>

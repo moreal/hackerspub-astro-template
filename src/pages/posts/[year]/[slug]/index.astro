@@ -1,13 +1,18 @@
 ---
 import { getAllArticles } from '../../../../lib/graphql/client';
 import { siteConfig } from '../../../../../site.config';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Navigation from '../../../../components/Navigation.astro';
+import LanguageSwitcher from '../../../../components/LanguageSwitcher.astro';
+import ArticleMetadata from '../../../../components/ArticleMetadata.astro';
+import Reactions from '../../../../components/Reactions.astro';
+import { generateAlternateLanguageLinks } from '../../../../lib/utils';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths = (async () => {
   const articles = await getAllArticles(siteConfig.handle, siteConfig.minimumVisibility);
 
   return articles.map((article) => {
-    // Find original language content
     let originalContent = null;
     let availableLanguages: any[] = [];
     
@@ -33,123 +38,52 @@ export const getStaticPaths = (async () => {
 
 const { article, originalContent, availableLanguages } = Astro.props;
 const hasMultipleLanguages = availableLanguages.length > 0;
-const content = originalContent || { title: article.name, content: article.content, published: article.published };
+const content = originalContent || { 
+  title: article.name, 
+  content: article.content, 
+  published: article.published,
+  language: 'en'
+};
+const alternateLinks = hasMultipleLanguages 
+  ? generateAlternateLanguageLinks(availableLanguages, article.publishedYear, article.slug)
+  : [];
 ---
 
-<html lang={originalContent?.language || 'en'}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{content.title} - {siteConfig.title}</title>
-    
-    <!-- Alternate language links -->
-    {hasMultipleLanguages && availableLanguages.map((lang) => {
-      const href = lang.originalLanguage 
-        ? `/posts/${article.publishedYear}/${article.slug}/${lang.language}/`
-        : `/posts/${article.publishedYear}/${article.slug}/`;
-      return <link rel="alternate" hreflang={lang.language} href={href} />;
-    })}
-  </head>
-  <body class="max-w-4xl mx-auto px-4 py-8">
-    <header class="mb-8">
-      <nav class="mb-4 flex gap-4">
-        <a href="/" class="text-blue-600 hover:underline">Home</a>
-        <a href="/tags" class="text-blue-600 hover:underline">Tags</a>
-        <a href="/about" class="text-blue-600 hover:underline">About</a>
-      </nav>
-    </header>
+<BaseLayout 
+  title={content.title} 
+  lang={content.language}
+>
+  <Fragment slot="head">
+    {alternateLinks.map(link => (
+      <link rel="alternate" hreflang={link.hreflang} href={link.href} />
+    ))}
+  </Fragment>
 
-    <main>
-      <article>
-        <!-- Language switcher -->
-        {hasMultipleLanguages && availableLanguages.length > 1 && (
-          <div class="mb-6 flex items-center gap-3">
-            <span class="text-sm font-medium text-gray-700">Available languages:</span>
-            <div class="flex flex-wrap gap-2">
-              {availableLanguages.map((lang) => {
-                const href = lang.originalLanguage 
-                  ? `/posts/${article.publishedYear}/${article.slug}/${lang.language}/`
-                  : `/posts/${article.publishedYear}/${article.slug}/`;
-                const isCurrent = !lang.originalLanguage;
-                const isOriginal = !lang.originalLanguage;
-                
-                return (
-                  <a
-                    href={href}
-                    class={isCurrent 
-                      ? "px-3 py-1 rounded-md bg-blue-600 text-white font-medium text-sm"
-                      : "px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm"
-                    }
-                  >
-                    {lang.language}
-                    {isOriginal && " (Original)"}
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-        )}
+  <header class="mb-8">
+    <Navigation class="mb-4 flex gap-4" />
+  </header>
 
-        <h1 class="text-4xl font-bold mb-3">{content.title}</h1>
+  <main>
+    <article>
+      {hasMultipleLanguages && availableLanguages.length > 1 && (
+        <LanguageSwitcher
+          availableLanguages={availableLanguages}
+          currentLanguage={content.language}
+          articleYear={article.publishedYear}
+          articleSlug={article.slug}
+        />
+      )}
 
-        <div class="mb-6 flex items-center gap-3 text-sm text-gray-600">
-          <time datetime={article.published}>
-            {new Date(article.published).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </time>
-          {article.tags.length > 0 && (
-            <>
-              <span class="text-gray-400">•</span>
-              <div class="flex flex-wrap gap-2">
-                {article.tags.map((tag: string) => (
-                  <a
-                    href={`/tag/${tag}`}
-                    class="text-blue-600 hover:underline"
-                  >
-                    #{tag}
-                  </a>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+      <h1 class="text-4xl font-bold mb-3">{content.title}</h1>
 
-        <div class="prose prose-slate max-w-none mb-8 mt-6" set:html={content.content} />
+      <ArticleMetadata 
+        published={article.published} 
+        tags={article.tags} 
+      />
 
-        {article.reactionGroups && article.reactionGroups.length > 0 && (
-          <div class="border-t pt-6 mt-8">
-            <h3 class="text-sm font-medium text-gray-700 mb-3">Reactions</h3>
-            <div class="flex flex-wrap gap-4 items-center">
-              {article.reactionGroups.map((group) => {
-                if (group.__typename === 'EmojiReactionGroup') {
-                  return (
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-2xl" title="Reaction">{group.emoji}</span>
-                      <span class="text-base font-medium text-gray-700">{group.reactors.totalCount}</span>
-                    </div>
-                  );
-                } else if (group.__typename === 'CustomEmojiReactionGroup') {
-                  return (
-                    <div class="flex items-center gap-1.5">
-                      <img 
-                        src={group.customEmoji.iri} 
-                        alt={group.customEmoji.name} 
-                        class="w-6 h-6" 
-                        title={group.customEmoji.name}
-                      />
-                      <span class="text-base font-medium text-gray-700">{group.reactors.totalCount}</span>
-                    </div>
-                  );
-                }
-              })}
-            </div>
-          </div>
-        )}
-      </article>
-    </main>
-  </body>
-</html>
+      <div class="prose prose-slate max-w-none mb-8 mt-6" set:html={content.content} />
+
+      <Reactions reactionGroups={article.reactionGroups} />
+    </article>
+  </main>
+</BaseLayout>

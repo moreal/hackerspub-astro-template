@@ -1,6 +1,8 @@
 ---
 import { getAllArticles } from "../lib/graphql/client";
 import { siteConfig } from "../../site.config";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
 
 const articles = await getAllArticles(
   siteConfig.handle,
@@ -19,38 +21,26 @@ const sortedTags = Array.from(tagCounts.entries()).sort(([a], [b]) =>
 );
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Tags - {siteConfig.title}</title>
-  </head>
-  <body class="max-w-4xl mx-auto px-4 py-8">
-    <header class="mb-8">
-      <nav class="mb-4 flex gap-4">
-        <a href="/" class="text-blue-600 hover:underline">Home</a>
-        <a href="/tags" class="text-blue-600 hover:underline">Tags</a>
-        <a href="/about" class="text-blue-600 hover:underline">About</a>
-      </nav>
-    </header>
+<BaseLayout title="Tags">
+  <header class="mb-8">
+    <Navigation class="mb-4 flex gap-4" />
+  </header>
 
-    <main>
-      <h1 class="text-4xl font-bold mb-8">Tags</h1>
+  <main>
+    <h1 class="text-4xl font-bold mb-8">Tags</h1>
 
-      <div class="flex flex-wrap gap-3">
-        {
-          sortedTags.map(([tag, count]) => (
-            <a
-              href={`/tag/${tag}`}
-              class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
-            >
-              <span class="font-medium">#{tag}</span>
-              <span class="text-sm text-gray-600 ml-2">({count})</span>
-            </a>
-          ))
-        }
-      </div>
-    </main>
-  </body>
-</html>
+    <div class="flex flex-wrap gap-3">
+      {
+        sortedTags.map(([tag, count]) => (
+          <a
+            href={`/tag/${tag}`}
+            class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
+          >
+            <span class="font-medium">#{tag}</span>
+            <span class="text-sm text-gray-600 ml-2">({count})</span>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>
