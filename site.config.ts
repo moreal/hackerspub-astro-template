@@ -8,5 +8,6 @@ export const siteConfig = {
     | "FOLLOWERS"
     | "DIRECT",
   title: import.meta.env.SITE_TITLE || "My Blog",
-  description: import.meta.env.SITE_DESCRIPTION || "A blog powered by Hackers' Pub",
+  description:
+    import.meta.env.SITE_DESCRIPTION || "A blog powered by Hackers' Pub",
 } as const;

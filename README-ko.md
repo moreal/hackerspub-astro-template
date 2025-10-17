@@ -39,7 +39,8 @@ SITE_TITLE=내 블로그
 SITE_DESCRIPTION=Hackers' Pub으로 만든 블로그
 ```
 
-**참고**: 
+**참고**:
+
 - `HACKERSPUB_HANDLE`에는 도메인 없이 핸들만 입력하세요 (예: `moreal@hackers.pub` 대신 `moreal`).
 - Astro는 자동으로 `.env` 파일을 로드하고 `import.meta.env`를 통해 사용할 수 있게 합니다.
 
@@ -121,11 +122,17 @@ GRAPHQL_ENDPOINT=https://hackers.pub/graphql
 
 ```typescript
 export const siteConfig = {
-  graphqlEndpoint: import.meta.env.GRAPHQL_ENDPOINT || 'https://hackers.pub/graphql',
-  handle: import.meta.env.HACKERSPUB_HANDLE || 'user',
-  minimumVisibility: (import.meta.env.MINIMUM_VISIBILITY || 'PUBLIC') as 'PUBLIC' | 'UNLISTED' | 'FOLLOWERS' | 'DIRECT',
-  title: import.meta.env.SITE_TITLE || 'My Blog',
-  description: import.meta.env.SITE_DESCRIPTION || 'A blog powered by Hackers\' Pub',
+  graphqlEndpoint:
+    import.meta.env.GRAPHQL_ENDPOINT || "https://hackers.pub/graphql",
+  handle: import.meta.env.HACKERSPUB_HANDLE || "user",
+  minimumVisibility: (import.meta.env.MINIMUM_VISIBILITY || "PUBLIC") as
+    | "PUBLIC"
+    | "UNLISTED"
+    | "FOLLOWERS"
+    | "DIRECT",
+  title: import.meta.env.SITE_TITLE || "My Blog",
+  description:
+    import.meta.env.SITE_DESCRIPTION || "A blog powered by Hackers' Pub",
 } as const;
 ```
 

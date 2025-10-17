@@ -1,10 +1,13 @@
 ---
-import { getAllArticles } from '../lib/graphql/client';
-import { siteConfig } from '../../site.config';
-import { RelativeTime } from '../components/RelativeTime';
+import { getAllArticles } from "../lib/graphql/client";
+import { siteConfig } from "../../site.config";
+import { RelativeTime } from "../components/RelativeTime";
 
 console.log(siteConfig);
-const articles = await getAllArticles(siteConfig.handle, siteConfig.minimumVisibility);
+const articles = await getAllArticles(
+  siteConfig.handle,
+  siteConfig.minimumVisibility,
+);
 ---
 
 <html lang="en">
@@ -29,35 +32,37 @@ const articles = await getAllArticles(siteConfig.handle, siteConfig.minimumVisib
     <main>
       <h2 class="text-2xl font-bold mb-6">Articles</h2>
       <div class="space-y-6">
-        {articles.map((article) => (
-          <article class="border-b pb-6">
-            <h3 class="text-xl font-semibold mb-2">
-              <a
-                href={`/posts/${article.publishedYear}/${article.slug}`}
-                class="text-blue-600 hover:underline"
-              >
-                {article.name}
-              </a>
-            </h3>
-            <RelativeTime
-              client:load
-              datetime={article.published}
-              className="text-sm text-gray-500"
-            />
-            {article.tags.length > 0 && (
-              <div class="mt-2 flex flex-wrap gap-2">
-                {article.tags.map((tag) => (
-                  <a
-                    href={`/tag/${tag}`}
-                    class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded"
-                  >
-                    #{tag}
-                  </a>
-                ))}
-              </div>
-            )}
-          </article>
-        ))}
+        {
+          articles.map((article) => (
+            <article class="border-b pb-6">
+              <h3 class="text-xl font-semibold mb-2">
+                <a
+                  href={`/posts/${article.publishedYear}/${article.slug}`}
+                  class="text-blue-600 hover:underline"
+                >
+                  {article.name}
+                </a>
+              </h3>
+              <RelativeTime
+                client:load
+                datetime={article.published}
+                className="text-sm text-gray-500"
+              />
+              {article.tags.length > 0 && (
+                <div class="mt-2 flex flex-wrap gap-2">
+                  {article.tags.map((tag) => (
+                    <a
+                      href={`/tag/${tag}`}
+                      class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded"
+                    >
+                      #{tag}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))
+        }
       </div>
     </main>
   </body>

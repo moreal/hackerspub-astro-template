@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface ArticleContentItem {
   id: string;
@@ -16,18 +16,26 @@ interface ArticleContentProps {
   tags?: string[];
 }
 
-export function ArticleContent({ contents, defaultLanguage, tags }: ArticleContentProps) {
-  const availableContents = contents.filter(c => !c.beingTranslated);
-  
+export function ArticleContent({
+  contents,
+  defaultLanguage,
+  tags,
+}: ArticleContentProps) {
+  const availableContents = contents.filter((c) => !c.beingTranslated);
+
   const [selectedLanguage, setSelectedLanguage] = useState<string>(() => {
     if (defaultLanguage) {
-      const found = availableContents.find(c => c.language === defaultLanguage);
+      const found = availableContents.find(
+        (c) => c.language === defaultLanguage,
+      );
       if (found) return defaultLanguage;
     }
-    return availableContents[0]?.language || '';
+    return availableContents[0]?.language || "";
   });
 
-  const selectedContent = availableContents.find(c => c.language === selectedLanguage) || availableContents[0];
+  const selectedContent =
+    availableContents.find((c) => c.language === selectedLanguage) ||
+    availableContents[0];
 
   if (!selectedContent) {
     return <div>No content available</div>;
@@ -39,7 +47,10 @@ export function ArticleContent({ contents, defaultLanguage, tags }: ArticleConte
     <div>
       {availableContents.length > 1 && (
         <div className="mb-6 flex items-center gap-3">
-          <label htmlFor="language-select" className="text-sm font-medium text-gray-700">
+          <label
+            htmlFor="language-select"
+            className="text-sm font-medium text-gray-700"
+          >
             Language:
           </label>
           <select
@@ -51,7 +62,7 @@ export function ArticleContent({ contents, defaultLanguage, tags }: ArticleConte
             {availableContents.map((content) => (
               <option key={content.id} value={content.language}>
                 {content.language}
-                {!content.originalLanguage && ' (Original)'}
+                {!content.originalLanguage && " (Original)"}
               </option>
             ))}
           </select>
@@ -62,15 +73,15 @@ export function ArticleContent({ contents, defaultLanguage, tags }: ArticleConte
           )}
         </div>
       )}
-      
+
       <h1 className="text-4xl font-bold mb-3">{selectedContent.title}</h1>
-      
+
       <div className="mb-6 flex items-center gap-3 text-sm text-gray-600">
         <time dateTime={selectedContent.published}>
-          {new Date(selectedContent.published).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+          {new Date(selectedContent.published).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
           })}
         </time>
         {tags && tags.length > 0 && (
@@ -91,8 +102,8 @@ export function ArticleContent({ contents, defaultLanguage, tags }: ArticleConte
         )}
       </div>
 
-      <div 
-        className="prose prose-slate max-w-none mb-8 mt-6" 
+      <div
+        className="prose prose-slate max-w-none mb-8 mt-6"
         dangerouslySetInnerHTML={{ __html: selectedContent.content }}
       />
     </div>

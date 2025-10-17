@@ -1,6 +1,6 @@
 ---
-import { getActor } from '../lib/graphql/client';
-import { siteConfig } from '../../site.config';
+import { getActor } from "../lib/graphql/client";
+import { siteConfig } from "../../site.config";
 
 const actor = await getActor(siteConfig.handle);
 ---
@@ -34,9 +34,7 @@ const actor = await getActor(siteConfig.handle);
         </div>
       </div>
 
-      {actor.bio && (
-        <div class="prose max-w-none" set:html={actor.bio} />
-      )}
+      {actor.bio && <div class="prose max-w-none" set:html={actor.bio} />}
     </main>
   </body>
 </html>

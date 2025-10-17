@@ -1,8 +1,11 @@
 ---
-import { getAllArticles } from '../lib/graphql/client';
-import { siteConfig } from '../../site.config';
+import { getAllArticles } from "../lib/graphql/client";
+import { siteConfig } from "../../site.config";
 
-const articles = await getAllArticles(siteConfig.handle, siteConfig.minimumVisibility);
+const articles = await getAllArticles(
+  siteConfig.handle,
+  siteConfig.minimumVisibility,
+);
 
 const tagCounts = new Map<string, number>();
 articles.forEach((article) => {
@@ -11,8 +14,9 @@ articles.forEach((article) => {
   });
 });
 
-const sortedTags = Array.from(tagCounts.entries())
-  .sort(([a], [b]) => a.localeCompare(b));
+const sortedTags = Array.from(tagCounts.entries()).sort(([a], [b]) =>
+  a.localeCompare(b),
+);
 ---
 
 <html lang="en">
@@ -33,17 +37,19 @@ const sortedTags = Array.from(tagCounts.entries())
 
     <main>
       <h1 class="text-4xl font-bold mb-8">Tags</h1>
-      
+
       <div class="flex flex-wrap gap-3">
-        {sortedTags.map(([tag, count]) => (
-          <a 
-            href={`/tag/${tag}`}
-            class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
-          >
-            <span class="font-medium">#{tag}</span>
-            <span class="text-sm text-gray-600 ml-2">({count})</span>
-          </a>
-        ))}
+        {
+          sortedTags.map(([tag, count]) => (
+            <a
+              href={`/tag/${tag}`}
+              class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
+            >
+              <span class="font-medium">#{tag}</span>
+              <span class="text-sm text-gray-600 ml-2">({count})</span>
+            </a>
+          ))
+        }
       </div>
     </main>
   </body>

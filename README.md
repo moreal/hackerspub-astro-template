@@ -39,7 +39,8 @@ SITE_TITLE=Your Blog Title
 SITE_DESCRIPTION=Your blog description
 ```
 
-**Note**: 
+**Note**:
+
 - For `HACKERSPUB_HANDLE`, use your Hackers' Pub handle without the domain (e.g., `moreal` instead of `moreal@hackers.pub`).
 - Astro automatically loads `.env` files and makes them available via `import.meta.env`.
 
@@ -121,11 +122,17 @@ Edit `site.config.ts` to customize:
 
 ```typescript
 export const siteConfig = {
-  graphqlEndpoint: import.meta.env.GRAPHQL_ENDPOINT || 'https://hackers.pub/graphql',
-  handle: import.meta.env.HACKERSPUB_HANDLE || 'user',
-  minimumVisibility: (import.meta.env.MINIMUM_VISIBILITY || 'PUBLIC') as 'PUBLIC' | 'UNLISTED' | 'FOLLOWERS' | 'DIRECT',
-  title: import.meta.env.SITE_TITLE || 'My Blog',
-  description: import.meta.env.SITE_DESCRIPTION || 'A blog powered by Hackers\' Pub',
+  graphqlEndpoint:
+    import.meta.env.GRAPHQL_ENDPOINT || "https://hackers.pub/graphql",
+  handle: import.meta.env.HACKERSPUB_HANDLE || "user",
+  minimumVisibility: (import.meta.env.MINIMUM_VISIBILITY || "PUBLIC") as
+    | "PUBLIC"
+    | "UNLISTED"
+    | "FOLLOWERS"
+    | "DIRECT",
+  title: import.meta.env.SITE_TITLE || "My Blog",
+  description:
+    import.meta.env.SITE_DESCRIPTION || "A blog powered by Hackers' Pub",
 } as const;
 ```
 

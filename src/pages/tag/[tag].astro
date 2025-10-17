@@ -1,11 +1,14 @@
 ---
-import { getAllArticles } from '../../lib/graphql/client';
-import { siteConfig } from '../../../site.config';
-import type { GetStaticPaths } from 'astro';
+import { getAllArticles } from "../../lib/graphql/client";
+import { siteConfig } from "../../../site.config";
+import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async () => {
-  const articles = await getAllArticles(siteConfig.handle, siteConfig.minimumVisibility);
-  
+  const articles = await getAllArticles(
+    siteConfig.handle,
+    siteConfig.minimumVisibility,
+  );
+
   const tags = new Set<string>();
   articles.forEach((article) => {
     article.tags.forEach((tag) => tags.add(tag));
@@ -13,9 +16,9 @@ export const getStaticPaths = (async () => {
 
   return Array.from(tags).map((tag) => ({
     params: { tag },
-    props: { 
+    props: {
       tag,
-      articles: articles.filter((article) => article.tags.includes(tag))
+      articles: articles.filter((article) => article.tags.includes(tag)),
     },
   }));
 }) satisfies GetStaticPaths;
@@ -41,23 +44,25 @@ const { tag, articles } = Astro.props;
 
     <main>
       <h1 class="text-4xl font-bold mb-8">#{tag}</h1>
-      
+
       <div class="space-y-6">
-        {articles.map((article) => (
-          <article class="border-b pb-6">
-            <h2 class="text-xl font-semibold mb-2">
-              <a 
-                href={`/posts/${article.publishedYear}/${article.slug}`}
-                class="text-blue-600 hover:underline"
-              >
-                {article.name}
-              </a>
-            </h2>
-            <time class="text-sm text-gray-500" datetime={article.published}>
-              {new Date(article.published).toLocaleDateString()}
-            </time>
-          </article>
-        ))}
+        {
+          articles.map((article) => (
+            <article class="border-b pb-6">
+              <h2 class="text-xl font-semibold mb-2">
+                <a
+                  href={`/posts/${article.publishedYear}/${article.slug}`}
+                  class="text-blue-600 hover:underline"
+                >
+                  {article.name}
+                </a>
+              </h2>
+              <time class="text-sm text-gray-500" datetime={article.published}>
+                {new Date(article.published).toLocaleDateString()}
+              </time>
+            </article>
+          ))
+        }
       </div>
     </main>
   </body>
