@@ -1,0 +1,12 @@
+schema: https://raw.githubusercontent.com/hackers-pub/hackerspub/refs/heads/main/graphql/schema.graphql
+documents: 'src/lib/graphql/queries.ts'
+generates:
+  src/lib/graphql/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+    config:
+      rawRequest: true
+      skipTypename: false
+      avoidOptionals: false
