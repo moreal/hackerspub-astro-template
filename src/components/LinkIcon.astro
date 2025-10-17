@@ -1,0 +1,28 @@
+---
+interface Props {
+  icon: string;
+  verified?: boolean;
+}
+
+const { icon, verified = false } = Astro.props;
+
+function getIconEmoji(iconType: string) {
+  switch (iconType) {
+    case "GITHUB":
+      return "🐙";
+    case "TWITTER":
+    case "X":
+      return "🐦";
+    case "LINKEDIN":
+      return "💼";
+    case "INSTAGRAM":
+      return "📷";
+    case "FACEBOOK":
+      return "📘";
+    default:
+      return "🔗";
+  }
+}
+---
+
+<span class="text-base">{getIconEmoji(icon)}{verified && "✅"}</span>

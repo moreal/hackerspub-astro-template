@@ -68,3 +68,27 @@ export const GET_ACTOR_WITH_ARTICLES = gql`
     }
   }
 `;
+
+export const GET_ACCOUNT_WITH_ACTOR = gql`
+  query GetAccountWithActor($username: String!) {
+    accountByUsername(username: $username) {
+      id
+      username
+      actor {
+        id
+        handle
+        name
+        bio
+        avatarUrl
+      }
+      links {
+        id
+        name
+        url
+        handle
+        icon
+        verified
+      }
+    }
+  }
+`;

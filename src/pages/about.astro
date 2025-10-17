@@ -1,10 +1,12 @@
 ---
-import { getActor } from "@/lib/graphql/client";
+import { getAccount } from "@/lib/graphql/client";
 import { siteConfig } from "@/config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Navigation from "@/components/Navigation.astro";
+import LinkIcon from "@/components/LinkIcon.astro";
 
-const actor = await getActor(siteConfig.handle);
+const account = await getAccount(siteConfig.handle);
+const actor = account.actor;
 ---
 
 <BaseLayout title="About">
@@ -22,9 +24,33 @@ const actor = await getActor(siteConfig.handle);
       <div>
         <h1 class="text-3xl font-bold mb-1">{actor.name || actor.handle}</h1>
         <p class="text-gray-600">{actor.handle}</p>
+        {
+          account.links && account.links.length > 0 && (
+            <div class="flex flex-wrap gap-3 mt-2">
+              {account.links.map((link) => (
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-1 text-gray-600 hover:text-gray-800 transition-colors"
+                >
+                  <LinkIcon icon={link.icon} verified={link.verified} />
+                  <span class="text-sm">
+                    {link.name}
+                    {link.handle && ` ${link.handle}`}
+                  </span>
+                </a>
+              ))}
+            </div>
+          )
+        }
       </div>
     </div>
 
-    {actor.bio && <div class="prose prose-slate max-w-none" set:html={actor.bio} />}
+    {
+      actor.bio && (
+        <div class="prose prose-slate max-w-none mt-6" set:html={actor.bio} />
+      )
+    }
   </main>
 </BaseLayout>

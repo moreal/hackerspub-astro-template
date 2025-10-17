@@ -1,6 +1,9 @@
 import { GraphQLClient } from "graphql-request";
 import { getSdk } from "./generated/graphql";
-import type { GetActorWithArticlesQuery } from "./generated/graphql";
+import type {
+  GetActorWithArticlesQuery,
+  GetAccountWithActorQuery,
+} from "./generated/graphql";
 import { siteConfig } from "@/config";
 
 const client = new GraphQLClient(siteConfig.graphqlEndpoint);
@@ -13,6 +16,10 @@ export type Article = NonNullable<
 >;
 
 export type Actor = NonNullable<GetActorWithArticlesQuery["actorByHandle"]>;
+
+export type Account = NonNullable<
+  GetAccountWithActorQuery["accountByUsername"]
+>;
 
 const VISIBILITY_LEVELS = {
   NONE: 0,
@@ -76,4 +83,14 @@ export async function getActor(handle: string): Promise<Actor> {
   }
 
   return response.data.actorByHandle;
+}
+
+export async function getAccount(username: string): Promise<Account> {
+  const response = await sdk.GetAccountWithActor({ username });
+
+  if (!response.data.accountByUsername) {
+    throw new Error(`Account not found: ${username}`);
+  }
+
+  return response.data.accountByUsername;
 }
