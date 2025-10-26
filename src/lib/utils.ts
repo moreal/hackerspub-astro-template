@@ -1,6 +1,6 @@
 interface Language {
-  language: string;
-  originalLanguage?: string | null;
+  language: string
+  originalLanguage?: string | null
 }
 
 export function getLanguageUrl(
@@ -10,8 +10,8 @@ export function getLanguageUrl(
 ): string {
   const basePath = lang.originalLanguage
     ? `/posts/${year}/${slug}/${lang.language}/`
-    : `/posts/${year}/${slug}/`;
-  return `${import.meta.env.BASE_URL}${basePath}`;
+    : `/posts/${year}/${slug}/`
+  return `${import.meta.env.BASE_URL}${basePath}`
 }
 
 export function generateAlternateLanguageLinks(
@@ -22,5 +22,5 @@ export function generateAlternateLanguageLinks(
   return availableLanguages.map((lang) => ({
     hreflang: lang.language,
     href: getLanguageUrl(lang, year, slug),
-  }));
+  }))
 }

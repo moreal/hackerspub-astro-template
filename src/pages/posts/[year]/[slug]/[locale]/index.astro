@@ -1,29 +1,29 @@
 ---
-import { getAllArticles } from "@/lib/graphql/client";
-import { siteConfig } from "@/config";
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navigation from "@/components/Navigation.astro";
-import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
-import ArticleMetadata from "@/components/ArticleMetadata.astro";
-import Reactions from "@/components/Reactions.astro";
-import { generateAlternateLanguageLinks } from "@/lib/utils";
-import type { GetStaticPaths } from "astro";
+import { getAllArticles } from '@/lib/graphql/client'
+import { siteConfig } from '@/config'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Navigation from '@/components/Navigation.astro'
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
+import ArticleMetadata from '@/components/ArticleMetadata.astro'
+import Reactions from '@/components/Reactions.astro'
+import { generateAlternateLanguageLinks } from '@/lib/utils'
+import type { GetStaticPaths } from 'astro'
 
 export const getStaticPaths = (async () => {
   const articles = await getAllArticles(
     siteConfig.handle,
     siteConfig.minimumVisibility,
-  );
-  const paths: any[] = [];
+  )
+  const paths: any[] = []
 
   for (const article of articles) {
     if (article.contents && article.contents.length > 0) {
       const availableContents = article.contents.filter(
         (c) => !c.beingTranslated,
-      );
+      )
 
       for (const content of availableContents) {
-        if (!content.originalLanguage) continue;
+        if (!content.originalLanguage) continue
 
         paths.push({
           params: {
@@ -36,20 +36,20 @@ export const getStaticPaths = (async () => {
             content,
             availableLanguages: availableContents,
           },
-        });
+        })
       }
     }
   }
 
-  return paths;
-}) satisfies GetStaticPaths;
+  return paths
+}) satisfies GetStaticPaths
 
-const { article, content, availableLanguages } = Astro.props;
+const { article, content, availableLanguages } = Astro.props
 const alternateLinks = generateAlternateLanguageLinks(
   availableLanguages,
   article.publishedYear,
   article.slug,
-);
+)
 ---
 
 <BaseLayout title={content.title} lang={content.language}>

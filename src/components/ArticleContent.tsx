@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 interface ArticleContentItem {
-  id: string;
-  language: string;
-  originalLanguage?: string | null;
-  title: string;
-  content: string;
-  beingTranslated: boolean;
-  published: string;
+  id: string
+  language: string
+  originalLanguage?: string | null
+  title: string
+  content: string
+  beingTranslated: boolean
+  published: string
 }
 
 interface ArticleContentProps {
-  contents: ArticleContentItem[];
-  defaultLanguage?: string;
-  tags?: string[];
+  contents: ArticleContentItem[]
+  defaultLanguage?: string
+  tags?: string[]
 }
 
 export function ArticleContent({
@@ -21,27 +21,27 @@ export function ArticleContent({
   defaultLanguage,
   tags,
 }: ArticleContentProps) {
-  const availableContents = contents.filter((c) => !c.beingTranslated);
+  const availableContents = contents.filter((c) => !c.beingTranslated)
 
   const [selectedLanguage, setSelectedLanguage] = useState<string>(() => {
     if (defaultLanguage) {
       const found = availableContents.find(
         (c) => c.language === defaultLanguage,
-      );
-      if (found) return defaultLanguage;
+      )
+      if (found) return defaultLanguage
     }
-    return availableContents[0]?.language || "";
-  });
+    return availableContents[0]?.language || ''
+  })
 
   const selectedContent =
     availableContents.find((c) => c.language === selectedLanguage) ||
-    availableContents[0];
+    availableContents[0]
 
   if (!selectedContent) {
-    return <div>No content available</div>;
+    return <div>No content available</div>
   }
 
-  const isOriginal = !selectedContent.originalLanguage;
+  const isOriginal = !selectedContent.originalLanguage
 
   return (
     <div>
@@ -62,7 +62,7 @@ export function ArticleContent({
             {availableContents.map((content) => (
               <option key={content.id} value={content.language}>
                 {content.language}
-                {!content.originalLanguage && " (Original)"}
+                {!content.originalLanguage && ' (Original)'}
               </option>
             ))}
           </select>
@@ -78,10 +78,10 @@ export function ArticleContent({
 
       <div className="mb-6 flex items-center gap-3 text-sm text-gray-600">
         <time dateTime={selectedContent.published}>
-          {new Date(selectedContent.published).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
+          {new Date(selectedContent.published).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
           })}
         </time>
         {tags && tags.length > 0 && (
@@ -107,5 +107,5 @@ export function ArticleContent({
         dangerouslySetInnerHTML={{ __html: selectedContent.content }}
       />
     </div>
-  );
+  )
 }

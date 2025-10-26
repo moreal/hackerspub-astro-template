@@ -1,25 +1,23 @@
-import { GraphQLClient } from "graphql-request";
-import { getSdk } from "./generated/graphql";
+import { GraphQLClient } from 'graphql-request'
+import { getSdk } from './generated/graphql'
 import type {
   GetActorWithArticlesQuery,
   GetAccountWithActorQuery,
-} from "./generated/graphql";
-import { siteConfig } from "@/config";
+} from './generated/graphql'
+import { siteConfig } from '@/config'
 
-const client = new GraphQLClient(siteConfig.graphqlEndpoint);
-const sdk = getSdk(client);
+const client = new GraphQLClient(siteConfig.graphqlEndpoint)
+const sdk = getSdk(client)
 
 export type Article = NonNullable<
   NonNullable<
-    GetActorWithArticlesQuery["actorByHandle"]
-  >["articles"]["edges"][number]["node"]
->;
+    GetActorWithArticlesQuery['actorByHandle']
+  >['articles']['edges'][number]['node']
+>
 
-export type Actor = NonNullable<GetActorWithArticlesQuery["actorByHandle"]>;
+export type Actor = NonNullable<GetActorWithArticlesQuery['actorByHandle']>
 
-export type Account = NonNullable<
-  GetAccountWithActorQuery["accountByUsername"]
->;
+export type Account = NonNullable<GetAccountWithActorQuery['accountByUsername']>
 
 const VISIBILITY_LEVELS = {
   NONE: 0,
@@ -27,70 +25,70 @@ const VISIBILITY_LEVELS = {
   FOLLOWERS: 2,
   UNLISTED: 3,
   PUBLIC: 4,
-} as const;
+} as const
 
-type Visibility = keyof typeof VISIBILITY_LEVELS;
+type Visibility = keyof typeof VISIBILITY_LEVELS
 
 function isVisibilityAtLeast(
   articleVisibility: string,
   minimumVisibility: Visibility,
 ): boolean {
-  const articleLevel = VISIBILITY_LEVELS[articleVisibility as Visibility] ?? 0;
-  const minimumLevel = VISIBILITY_LEVELS[minimumVisibility];
-  return articleLevel >= minimumLevel;
+  const articleLevel = VISIBILITY_LEVELS[articleVisibility as Visibility] ?? 0
+  const minimumLevel = VISIBILITY_LEVELS[minimumVisibility]
+  return articleLevel >= minimumLevel
 }
 
 export async function getAllArticles(
   handle: string,
-  minimumVisibility: Visibility = "PUBLIC",
+  minimumVisibility: Visibility = 'PUBLIC',
 ): Promise<Article[]> {
-  const articles: Article[] = [];
-  let cursor: string | null = null;
-  let hasNextPage = true;
+  const articles: Article[] = []
+  let cursor: string | null = null
+  let hasNextPage = true
 
   while (hasNextPage) {
     const response = await sdk.GetActorWithArticles({
       handle,
       after: cursor,
-    });
+    })
 
     if (!response.data.actorByHandle) {
-      throw new Error(`Actor not found: ${handle}`);
+      throw new Error(`Actor not found: ${handle}`)
     }
 
-    const edges = response.data.actorByHandle.articles.edges;
+    const edges = response.data.actorByHandle.articles.edges
 
     for (const edge of edges) {
       if (isVisibilityAtLeast(edge.node.visibility, minimumVisibility)) {
-        articles.push(edge.node);
+        articles.push(edge.node)
       }
     }
 
-    hasNextPage = response.data.actorByHandle.articles.pageInfo.hasNextPage;
-    cursor = response.data.actorByHandle.articles.pageInfo.endCursor ?? null;
+    hasNextPage = response.data.actorByHandle.articles.pageInfo.hasNextPage
+    cursor = response.data.actorByHandle.articles.pageInfo.endCursor ?? null
   }
 
   return articles.sort(
     (a, b) => new Date(b.published).getTime() - new Date(a.published).getTime(),
-  );
+  )
 }
 
 export async function getActor(handle: string): Promise<Actor> {
-  const response = await sdk.GetActorWithArticles({ handle });
+  const response = await sdk.GetActorWithArticles({ handle })
 
   if (!response.data.actorByHandle) {
-    throw new Error(`Actor not found: ${handle}`);
+    throw new Error(`Actor not found: ${handle}`)
   }
 
-  return response.data.actorByHandle;
+  return response.data.actorByHandle
 }
 
 export async function getAccount(username: string): Promise<Account> {
-  const response = await sdk.GetAccountWithActor({ username });
+  const response = await sdk.GetAccountWithActor({ username })
 
   if (!response.data.accountByUsername) {
-    throw new Error(`Account not found: ${username}`);
+    throw new Error(`Account not found: ${username}`)
   }
 
-  return response.data.accountByUsername;
+  return response.data.accountByUsername
 }

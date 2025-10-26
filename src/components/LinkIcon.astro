@@ -1,26 +1,26 @@
 ---
 interface Props {
-  icon: string;
-  verified?: boolean;
+  icon: string
+  verified?: boolean
 }
 
-const { icon, verified = false } = Astro.props;
+const { icon, verified = false } = Astro.props
 
 function getIconEmoji(iconType: string) {
   switch (iconType) {
-    case "GITHUB":
-      return "🐙";
-    case "TWITTER":
-    case "X":
-      return "🐦";
-    case "LINKEDIN":
-      return "💼";
-    case "INSTAGRAM":
-      return "📷";
-    case "FACEBOOK":
-      return "📘";
+    case 'GITHUB':
+      return '🐙'
+    case 'TWITTER':
+    case 'X':
+      return '🐦'
+    case 'LINKEDIN':
+      return '💼'
+    case 'INSTAGRAM':
+      return '📷'
+    case 'FACEBOOK':
+      return '📘'
     default:
-      return "🔗";
+      return '🔗'
   }
 }
 ---

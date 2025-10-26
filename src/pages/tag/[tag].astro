@@ -1,20 +1,20 @@
 ---
-import { getAllArticles } from "@/lib/graphql/client";
-import { siteConfig } from "@/config";
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navigation from "@/components/Navigation.astro";
-import type { GetStaticPaths } from "astro";
+import { getAllArticles } from '@/lib/graphql/client'
+import { siteConfig } from '@/config'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Navigation from '@/components/Navigation.astro'
+import type { GetStaticPaths } from 'astro'
 
 export const getStaticPaths = (async () => {
   const articles = await getAllArticles(
     siteConfig.handle,
     siteConfig.minimumVisibility,
-  );
+  )
 
-  const tags = new Set<string>();
+  const tags = new Set<string>()
   articles.forEach((article) => {
-    article.tags.forEach((tag) => tags.add(tag));
-  });
+    article.tags.forEach((tag) => tags.add(tag))
+  })
 
   return Array.from(tags).map((tag) => ({
     params: { tag },
@@ -22,10 +22,10 @@ export const getStaticPaths = (async () => {
       tag,
       articles: articles.filter((article) => article.tags.includes(tag)),
     },
-  }));
-}) satisfies GetStaticPaths;
+  }))
+}) satisfies GetStaticPaths
 
-const { tag, articles } = Astro.props;
+const { tag, articles } = Astro.props
 ---
 
 <BaseLayout title={`#${tag}`}>
