@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request'
 
 export const GET_ACTOR_WITH_ARTICLES = gql`
   query GetActorWithArticles($handle: String!, $after: String) {
@@ -67,7 +67,7 @@ export const GET_ACTOR_WITH_ARTICLES = gql`
       }
     }
   }
-`;
+`
 
 export const GET_ACCOUNT_WITH_ACTOR = gql`
   query GetAccountWithActor($username: String!) {
@@ -91,4 +91,4 @@ export const GET_ACCOUNT_WITH_ACTOR = gql`
       }
     }
   }
-`;
+`

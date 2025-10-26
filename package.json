@@ -9,14 +9,12 @@
     "preview": "astro preview",
     "codegen": "graphql-codegen --config codegen.yml",
     "check": "yarn codegen && astro check",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
     "prepare": "lefthook install"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,astro,json,md}": [
-      "prettier --write"
-    ]
+    "*.{js,jsx,ts,tsx,astro,json,md}": ["biome format --write"]
   },
   "dependencies": {
     "graphql": "^16.11.0",

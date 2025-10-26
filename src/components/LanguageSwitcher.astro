@@ -1,20 +1,20 @@
 ---
-import { getLanguageUrl } from "@/lib/utils";
+import { getLanguageUrl } from '@/lib/utils'
 
 interface Language {
-  language: string;
-  originalLanguage?: string | null;
+  language: string
+  originalLanguage?: string | null
 }
 
 interface Props {
-  availableLanguages: Language[];
-  currentLanguage: string;
-  articleYear: number;
-  articleSlug: string;
+  availableLanguages: Language[]
+  currentLanguage: string
+  articleYear: number
+  articleSlug: string
 }
 
 const { availableLanguages, currentLanguage, articleYear, articleSlug } =
-  Astro.props;
+  Astro.props
 ---
 
 {

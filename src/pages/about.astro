@@ -1,12 +1,12 @@
 ---
-import { getAccount } from "@/lib/graphql/client";
-import { siteConfig } from "@/config";
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navigation from "@/components/Navigation.astro";
-import LinkIcon from "@/components/LinkIcon.astro";
+import { getAccount } from '@/lib/graphql/client'
+import { siteConfig } from '@/config'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Navigation from '@/components/Navigation.astro'
+import LinkIcon from '@/components/LinkIcon.astro'
 
-const account = await getAccount(siteConfig.handle);
-const actor = account.actor;
+const account = await getAccount(siteConfig.handle)
+const actor = account.actor
 ---
 
 <BaseLayout title="About">

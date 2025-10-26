@@ -1,24 +1,24 @@
 ---
-import { getAllArticles } from "@/lib/graphql/client";
-import { siteConfig } from "@/config";
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Navigation from "@/components/Navigation.astro";
+import { getAllArticles } from '@/lib/graphql/client'
+import { siteConfig } from '@/config'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Navigation from '@/components/Navigation.astro'
 
 const articles = await getAllArticles(
   siteConfig.handle,
   siteConfig.minimumVisibility,
-);
+)
 
-const tagCounts = new Map<string, number>();
+const tagCounts = new Map<string, number>()
 articles.forEach((article) => {
   article.tags.forEach((tag) => {
-    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
-  });
-});
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)
+  })
+})
 
 const sortedTags = Array.from(tagCounts.entries()).sort(([a], [b]) =>
   a.localeCompare(b),
-);
+)
 ---
 
 <BaseLayout title="Tags">

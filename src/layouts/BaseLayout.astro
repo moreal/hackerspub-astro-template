@@ -1,15 +1,15 @@
 ---
-import { siteConfig } from "@/config";
+import { siteConfig } from '@/config'
 
 interface Props {
-  title?: string | undefined;
-  description?: string | undefined;
-  lang?: string | undefined;
+  title?: string | undefined
+  description?: string | undefined
+  lang?: string | undefined
 }
 
-const { title, description, lang = "en" } = Astro.props;
-const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title;
-const pageDescription = description || siteConfig.description;
+const { title, description, lang = 'en' } = Astro.props
+const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title
+const pageDescription = description || siteConfig.description
 ---
 
 <!doctype html>
