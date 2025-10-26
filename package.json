@@ -14,7 +14,9 @@
     "prepare": "lefthook install"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,astro,json,md}": ["yarn format"]
+    "*.{js,jsx,ts,tsx,astro,json,md}": [
+      "yarn format"
+    ]
   },
   "dependencies": {
     "graphql": "^16.11.0",
